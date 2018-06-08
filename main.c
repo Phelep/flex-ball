@@ -20,6 +20,7 @@
 #include "matematik.h"
 #include "vector.h"
 #include <string.h>
+#include "striker.h"
 
 
 
@@ -58,17 +59,25 @@ int main(void)
         initVector(&v, -4, -4);
         rotato(&v, 1280);
         struct ball_t b;
-
+        struct striker_t s;
         initBall(&b, 20/2, 15/2, 1, 1);
+
+        initStriker(&s, 35/2, 20, 1, 0);
+{
+
+
+}
 
 
 
      while(1){
 
         ball_movement(&b, 1, 36, 1, 21);
+        striker_movement(&s, 1, 36, 21, 21);
 
         wall(0,0,35,20);
         ball_print(&b);
+        striker_print(&s);
    // while (1){
         //lcd_update(&k);
         //memset(buffer, 0x00,512);
