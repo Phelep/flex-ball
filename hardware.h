@@ -4,8 +4,9 @@
 #include "stm32f30x_conf.h"
 #include "30010_io.h"
 #include "GPIO.h"
+#include <string.h>
 
-typedef struct timer_t {
+struct timer_t {
     uint8_t hs, s, m, h;
 };
 

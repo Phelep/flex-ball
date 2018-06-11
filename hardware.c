@@ -10,7 +10,8 @@ int joyinout()
     uint16_t val_right = (GPIOC->IDR & (0x0001 << 0));
     uint16_t val_left = (GPIOC->IDR & (0x0001 << 1)) >> 1;
 
-    /*printf("Up: %d\nDown: %d\nLeft: %d\nRight: %d\nCenter: %d\n", val_up, val_down, val_left, val_right, val_center); */
+    gotoxy(50,30);
+    printf("\n\nUp: %d\nDown: %d\nLeft: %d\nRight: %d\nCenter: %d\n", val_up, val_down, val_left, val_right, val_center);
 
     return val_up | val_down << 1 | val_center << 2 | val_left << 3 | val_right << 4;
 }
@@ -70,7 +71,7 @@ void timer_pp()
 {
     RCC->APB1ENR |= RCC_APB1Periph_TIM2; // Enable clock line to timer 2;
     TIM2->CR1 = 0; // Configure timer 2
-    TIM2->ARR = 6399999; // Set reload value
+    TIM2->ARR = 6399; // Set reload value / 6399999
     TIM2->PSC = 0; // Set prescale value
 
     TIM2->DIER |= 0x0001;
@@ -107,6 +108,7 @@ void TIM2_IRQHandler(void)
         }
     }
 
+
     flag = 1;
     TIM2->SR &= ~0x0001;
 
@@ -134,5 +136,8 @@ void lcd_update(int *k)
     {
         (*k)--;
         flag = 0;
+
     }
 }
+
+

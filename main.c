@@ -21,6 +21,7 @@
 #include "vector.h"
 #include <string.h>
 #include "striker.h"
+#include "GPIO.h"
 
 
 
@@ -32,7 +33,9 @@ int main(void)
 {
     //uint8_t buffer[512];
     init_usb_uart(115200); // Initialize USB serial at 9600 baud
+    init_gpio();
     clrscr();
+    timer_pp();
 
 
 
@@ -40,19 +43,19 @@ int main(void)
     //init_spi_lcd();
     //memset(buffer, 0x00,512);
 
-    //int k = 1;
+
    /* lcd_update(&k);
     lcd_write_string("Schlong", k, 1, &buffer);
     lcd_push_buffer(buffer);
-        //init_gpio();  */
+
     //clrscr();
 
     //timer_pp();
+*/
 
 
 
-
-    wall(0,0,35,20);
+    wall(0,0,50,30);
 
 
         struct vector_t v;
@@ -60,24 +63,23 @@ int main(void)
         rotato(&v, 1280);
         struct ball_t b;
         struct striker_t s;
-        initBall(&b, 20/2, 15/2, 1, 1);
+        initBall(&b, 50/2, 30/2, 1, 1, 0, 0);
 
-        initStriker(&s, 35/2, 20, 1, 0);
-{
-
-
-}
-
-
+        initStriker(&s, 50/2, 30, 1, 0, 0, 0);
+        TIM2_IRQHandler();
 
      while(1){
 
-        ball_movement(&b, 1, 36, 1, 21);
-        striker_movement(&s, 1, 36, 21, 21);
 
-        wall(0,0,35,20);
+        if(tid.hs==0){
+        ball_movement(&b, 1, 50, 1, 30, &s);
+        striker_movement(&s, 1, 46, 29, 29, joyinout());
+
+        //wall(0,0,50,30);
         ball_print(&b);
         striker_print(&s);
+        }
+
    // while (1){
         //lcd_update(&k);
         //memset(buffer, 0x00,512);
