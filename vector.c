@@ -24,3 +24,14 @@ void rotato(struct vector_t * v, int vink)
     //printf(",");
     //printFix(expand(y));
 }
+
+void rotato_ball(struct ball_t * v, int vink)
+{
+    int32_t v_xb = FIX14_MULT(v->v_xb,cosinus(vink));
+    int32_t v_yb = FIX14_MULT(v->v_yb,sinus(vink));
+
+    v->v_xb = v_xb;
+    v->v_yb = v_yb;
+
+}
+

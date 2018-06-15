@@ -22,7 +22,7 @@
 #include <string.h>
 #include "striker.h"
 #include "GPIO.h"
-
+#include "boxes.h"
 
 
 
@@ -36,76 +36,189 @@ int main(void)
     init_gpio();
     clrscr();
     timer_pp();
-
-
-
-
-    //init_spi_lcd();
-    //memset(buffer, 0x00,512);
-
-
-   /* lcd_update(&k);
-    lcd_write_string("Schlong", k, 1, &buffer);
-    lcd_push_buffer(buffer);
-
-    //clrscr();
-
-    //timer_pp();
-*/
-
+    int hit[]= {0,0,0,0,0,0,0,0,0};
+    int hit_confirm[] = {0,0,0,0,0,0,0,0,0};
+    int vinkel_bold = 64;
 
 
     wall(0,0,50,30);
 
+    int score[]= {0};
+    int level[]= {0}; // Lvl 0 = Menu, Lvl 1 = Menu
+    all_boxes(level);
+    struct vector_t v;
+    initVector(&v, -4, -4);
+    rotato(&v, 1280);
+    struct ball_t b;
+    struct striker_t s;
+    initBall(&b, 50/2, 25, 1, 1, 0, 0);
+    int liv=3;
+    int liv_flag[]= {0};
+    initStriker(&s, 50/2, 30, 1, 0, 0, 0);
+    TIM2_IRQHandler();
 
-        struct vector_t v;
-        initVector(&v, -4, -4);
-        rotato(&v, 1280);
-        struct ball_t b;
-        struct striker_t s;
-        initBall(&b, 50/2, 30/2, 1, 1, 0, 0);
 
-        initStriker(&s, 50/2, 30, 1, 0, 0, 0);
-        TIM2_IRQHandler();
-
-     while(1){
+    while(1)
+    {
 
 
-        if(tid.hs==0){
-        ball_movement(&b, 1, 50, 1, 30, &s);
-        striker_movement(&s, 1, 46, 29, 29, joyinout());
+        if(liv>0)
+        {
+            if(level[0]==0 && (hit[3]==1 || hit[5]==1))
+            {
+                if(hit[3]==1)
+                {
+                    level[0]=2;
+                    gotoxy(50,36);
+                    printf("level: %d",level[0]-1);
+                    liv=3;
+                    gotoxy(50,38);
+                    printf("lives: %d", liv);
 
-        //wall(0,0,50,30);
-        ball_print(&b);
-        striker_print(&s);
+                }
+                else if(hit[5]==1)
+                {
+                    level[0]=1;
+                }
+                hit[0]=0;
+                hit[1]=0;
+                hit[2]=0;
+                hit[3]=0;
+                hit[4]=0;
+                hit[5]=0;
+                hit[6]=0;
+                hit[7]=0;
+                hit[8]=0;
+                hit_confirm[0]=0;
+                hit_confirm[1]=0;
+                hit_confirm[2]=0;
+                hit_confirm[3]=0;
+                hit_confirm[4]=0;
+                hit_confirm[5]=0;
+                hit_confirm[6]=0;
+                hit_confirm[7]=0;
+                hit_confirm[8]=0;
+                clean_boxes(hit,hit_confirm,score, level);
+                all_boxes(level);
+            }
+            else if(hit[0]==1 && hit[1]==1 && hit[2]==1 && hit[3]==1 && hit[4]==1 && hit[5]==1 && level[0]==2)
+            {
+                level[0]++;
+                hit[0]=0;
+                hit[1]=0;
+                hit[2]=0;
+                hit[3]=0;
+                hit[4]=0;
+                hit[5]=0;
+                hit[6]=0;
+                hit[7]=0;
+                hit[8]=0;
+                hit_confirm[0]=0;
+                hit_confirm[1]=0;
+                hit_confirm[2]=0;
+                hit_confirm[3]=0;
+                hit_confirm[4]=0;
+                hit_confirm[5]=0;
+                hit_confirm[6]=0;
+                hit_confirm[7]=0;
+                hit_confirm[8]=0;
+                clean_boxes(hit,hit_confirm,score, level);
+                all_boxes(level);
+                gotoxy(50,36);
+                printf("level: %d",level[0]-1);
+
+
+            }
+            else if(hit[1]==1 && hit[3]==1 && hit[5]==1 && hit[6]==1 && hit[8]==1 && level[0]==3)
+            {
+                level[0]++;
+                hit[0]=0;
+                hit[1]=0;
+                hit[2]=0;
+                hit[3]=0;
+                hit[4]=0;
+                hit[5]=0;
+                hit[6]=0;
+                hit[7]=0;
+                hit[8]=0;
+                hit_confirm[0]=0;
+                hit_confirm[1]=0;
+                hit_confirm[2]=0;
+                hit_confirm[3]=0;
+                hit_confirm[4]=0;
+                hit_confirm[5]=0;
+                hit_confirm[6]=0;
+                hit_confirm[7]=0;
+                hit_confirm[8]=0;
+                clean_boxes(hit,hit_confirm,score, level);
+                all_boxes(level);
+                gotoxy(50,36);
+                printf("level: %d",level[0]-1);
+            }
+            if(liv_flag[0]==1 && (level[0]==2 || level[0]==3 || level[0]==4))
+            {
+                liv--;
+                gotoxy(50,38);
+                printf("lives: %d", liv);
+                liv_flag[0]=0;
+            }
+
+
+
+
+            if(tid.hs==0)
+            {
+                ball_movement(&b, 1, 50, 1, 30, &s, hit, level, liv_flag, liv, &vinkel_bold);
+                striker_movement(&s, 1, 47, 29, 29, joyinout());
+
+                ball_print(&b);
+                striker_print(&s);
+                clean_boxes(hit, hit_confirm, score, level);
+            }
+            if(level[0]==5)
+            {
+                break;
+            }
+
+            // while (1){
+            //lcd_update(&k);
+            //memset(buffer, 0x00,512);
+            //lcd_write_string("Looooooooong penis", k, 1, buffer);
+            //lcd_push_buffer(buffer);
+            /*setLed(joyinout());*/
+
+            /*gotoxy(0,0);
+            printf("%d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
+            if(joyinout()==0b10000){
+                    movey(1);
+                    printf("Split time 1: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
+            }
+            else if(joyinout()==0b01000){
+                    movey(2);
+                    printf("Split time 2: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
+            }
+            else if(joyinout()==0b00010){
+                    gotoxy(0,0);
+                    printf("0:0:0.00\n");
+            }
+            }*/
+
+
+
+        }
+        else if(liv<=0)
+        {
+            clrscr();
+            gotoxy(50,20);
+            printf("GAME OVER");
+            gotoxy(50,40);
+            printf("Press the RESET button to go to menu");
         }
 
-   // while (1){
-        //lcd_update(&k);
-        //memset(buffer, 0x00,512);
-        //lcd_write_string("Looooooooong penis", k, 1, buffer);
-        //lcd_push_buffer(buffer);
-        /*setLed(joyinout());*/
-
-        /*gotoxy(0,0);
-        printf("%d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
-        if(joyinout()==0b10000){
-                movey(1);
-                printf("Split time 1: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
-        }
-        else if(joyinout()==0b01000){
-                movey(2);
-                printf("Split time 2: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
-        }
-        else if(joyinout()==0b00010){
-                gotoxy(0,0);
-                printf("0:0:0.00\n");
-        }
-    }*/
-
-
-     }
+    }
 }
+
+
 
 
 

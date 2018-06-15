@@ -2,6 +2,7 @@
 #define VECTOR_H_INCLUDED
 #include "stm32f30x_conf.h"
 #include "30010_io.h"
+#include "ball.h"
 
 struct vector_t
 {

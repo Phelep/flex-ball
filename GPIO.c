@@ -19,7 +19,7 @@ RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A
     GPIOA->MODER |= (0x00000001 << (9 * 2)); // Set mode register (0x00 - Input,0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
 
 
-    RCC->AHBENR |= RCC_AHBPeriph_GPIOB; // Enable clock for GPIO Port A
+    RCC->AHBENR |= RCC_AHBPeriph_GPIOB; // Enable clock for GPIO Port B
 // Set pin PB5 to input
     GPIOB->MODER &= ~(0x00000003 << (5 * 2)); // Clear mode register
     GPIOB->MODER |= (0x00000000 << (5 * 2)); // Set mode register (0x00 - Input, 0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
@@ -34,7 +34,7 @@ RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A
     GPIOB->MODER |= (0x00000001 << (4 * 2)); // Set mode register (0x00 - Input,0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
 
 
-    RCC->AHBENR |= RCC_AHBPeriph_GPIOB; // Enable clock for GPIO Port A
+    RCC->AHBENR |= RCC_AHBPeriph_GPIOB; // Enable clock for GPIO Port B
 // Set pin PB0 to input
     GPIOB->MODER &= ~(0x00000003 << (0 * 2)); // Clear mode register
     GPIOB->MODER |= (0x00000000 << (0 * 2)); // Set mode register (0x00 - Input, 0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
@@ -49,7 +49,7 @@ RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A
     GPIOB->MODER |= (0x00000001 << (1 * 2)); // Set mode register (0x00 - Input,0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
 
 
-    RCC->AHBENR |= RCC_AHBPeriph_GPIOC; // Enable clock for GPIO Port A
+    RCC->AHBENR |= RCC_AHBPeriph_GPIOC; // Enable clock for GPIO Port C
 // Set pin PC0 to input
     GPIOC->MODER &= ~(0x00000003 << (0 * 2)); // Clear mode register
     GPIOC->MODER |= (0x00000000 << (0 * 2)); // Set mode register (0x00 - Input,0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
@@ -65,7 +65,7 @@ RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A
 
 
 
-    RCC->AHBENR |= RCC_AHBPeriph_GPIOC; // Enable clock for GPIO Port A
+    RCC->AHBENR |= RCC_AHBPeriph_GPIOC; // Enable clock for GPIO Port C
 // Set pin PC1 to input
     GPIOC->MODER &= ~(0x00000003 << (1 * 2)); // Clear mode register
     GPIOC->MODER |= (0x00000000 << (1 * 2)); // Set mode register (0x00 - Input,0x01 - Output, 0x02 - Alternate Function, 0x03 - Analog in/out)
