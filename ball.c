@@ -21,18 +21,19 @@ void initBall(struct ball_t * v, int32_t p_xb, int32_t p_yb, int32_t v_xb, int32
 
 
 
-int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct striker_t * s, int *hit, int *level, int *liv_flag, int liv, int *vinkel_bold)
+int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct striker_t * s, int *hit, int *level, int *liv_flag, int liv, int *vinkel_bold, int *striker_hit)
 {
 
 
-    /* if(level[0]==2){
-     v->v_xb = (v->v_xb * (3 << 13) >> 11);
-     v->v_yb = (v->v_yb * (3 << 13) >> 11);
-     }
-     else if(level[0]==3){
-     v->v_xb = (v->v_xb * (3 << 13)) >> 12;
-     v->v_yb = (v->v_yb * (3 << 13)) >> 12;
-     }*/
+
+//     if(level[0]==3){
+//     v->v_xb = (v->v_xb + (3 << 5));
+//     v->v_yb = (v->v_yb + (3 << 5));
+//     }
+//     else if(level[0]==4){
+//     v->v_xb = (v->v_xb + (3 << 5));
+//     v->v_yb = (v->v_yb + (3 << 5));
+//     }
 
 
     v->p_xb = v->p_xb + v->v_xb;
@@ -80,8 +81,8 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
     else if((v->p_yb >> 14) > y2+5)
     {
         liv_flag[0]=1;
-        v->p_yb = (y2-2) << 14;
-        v->p_xb = 25 << 14;
+        v->p_yb = (y2-1) << 14;
+        v->p_xb = s->p_xs;
 
         if(level==2)
         {
@@ -367,123 +368,206 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
             v->p_yb >> 14 == y2
            )
     {
+
         //v->v_yb = -v->v_yb;
 
-        //if(v->v_xb<0)
+        if(v->v_xb<0){
 
             if((v->p_xb == s->p_xs) || ((s->p_xs >> 14)-1))
             {
-                /* v->v_xb=FIX14_MULT(v->v_xb,cosinus(vinkel_bold*4));
-
-                 vinkel_bold=(vinkel_bold*4+vinkel_bold); */
-                (*vinkel_bold)=(-300-(*vinkel_bold)) & 0x1FF;
-                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-                v->v_yb=sinus((*vinkel_bold)) >> 3;
-
+//                /* v->v_xb=FIX14_MULT(v->v_xb,cosinus(vinkel_bold*4));
+//
+//                 vinkel_bold=(vinkel_bold*4+vinkel_bold); */
+//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
+//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
+//                v->v_yb=sinus((*vinkel_bold)) >> 3;
+                if(level[0]>1){
+                striker_hit[0]++;
+                gotoxy(50,41);
+                printf("Hits: %d", striker_hit[0]);
+                }
+                v->v_xb=v->v_xb-(16 << 5);
+                v->v_yb=-v->v_yb+(16 << 5);
 
 
             }
 
              else if((v->p_xb >> 14) == ((s->p_xs >> 14)+1))
             {
-                /* v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*2));
+//                /* v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*2));
+//
+//                  vinkel_bold=(vinkel_bold*2+vinkel_bold); */
+//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
+//
+//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
+//                v->v_yb=sinus((*vinkel_bold)) >> 3;
 
-                  vinkel_bold=(vinkel_bold*2+vinkel_bold); */
-                (*vinkel_bold)=(-300-(*vinkel_bold)) & 0x1FF;
+                if(level[0]>1){
+                striker_hit[0]++;
+                gotoxy(50,41);
+                printf("Hits: %d", striker_hit[0]);
+                }
 
-                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-                v->v_yb=sinus((*vinkel_bold)) >> 3;
+                v->v_xb=v->v_xb-(8 << 5);
+                v->v_yb=-v->v_yb+(8 << 5);
 
 
             }
             else if((v->p_xb >> 14) == (s->p_xs >> 14)+2)
             {
-                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold)); */
-                (*vinkel_bold)=(-300-(*vinkel_bold)) & 0x1FF;
-                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-                v->v_yb=sinus((*vinkel_bold)) >> 3;
+//                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold)); */
+//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
+//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
+//                v->v_yb=sinus((*vinkel_bold)) >> 3;
 
+                if(level[0]>1){
+                striker_hit[0]++;
+                gotoxy(50,41);
+                printf("Hits: %d", striker_hit[0]);
+                }
+
+                v->v_yb=-v->v_yb;
 
 
             }
             else if((v->p_xb >> 14) == (s->p_xs >> 14)+3)
             {
-                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/2));
+//                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/2));
+//
+//                  vinkel_bold=(vinkel_bold/2+vinkel_bold); */
+//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
+//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
+//                v->v_yb=sinus((*vinkel_bold)) >> 3;
 
-                  vinkel_bold=(vinkel_bold/2+vinkel_bold); */
-                (*vinkel_bold)=(-300-(*vinkel_bold)) & 0x1FF;
-                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-                v->v_yb=sinus((*vinkel_bold)) >> 3;
+                if(level[0]>1){
+                striker_hit[0]++;
+                gotoxy(50,41);
+                printf("Hits: %d", striker_hit[0]);
+                }
 
-
+                v->v_xb=v->v_xb+(8 << 5);
+                v->v_yb=-v->v_yb-(8 << 5);
 
             }
             else if((v->p_xb >> 14) == ((s->p_xs >> 14)+4 || (s->p_xs >> 14)+5))
             {
-                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/4));
+//                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/4));
+//
+//                  vinkel_bold=(vinkel_bold/4+vinkel_bold); */
+//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
+//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
+//                v->v_yb=sinus((*vinkel_bold)) >> 3;
 
-                  vinkel_bold=(vinkel_bold/4+vinkel_bold); */
-                (*vinkel_bold)=(-300-(*vinkel_bold)) & 0x1FF;
-                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-                v->v_yb=sinus((*vinkel_bold)) >> 3;
+                if(level[0]>1){
+                striker_hit[0]++;
+                gotoxy(50,41);
+                printf("Hits: %d", striker_hit[0]);
+                }
+
+                v->v_xb=v->v_xb+(16 << 5);
+                v->v_yb=-v->v_yb-(16 << 5);
             }
         }
-//          /* else if(v->v_xb>0){
-//                    if(v->p_xb == s->p_xs){
-//                           /* v->v_xb=FIX14_MULT(v->v_xb,cosinus(vinkel_bold/4)); */
+          else if(v->v_xb>0){
+                    if(v->p_xb == s->p_xs){
+//                            v->v_xb=FIX14_MULT(v->v_xb,cosinus(vinkel_bold/4));
 //
 //                            vinkel_bold=512-vinkel_bold;
 //                            v->v_xb=-cosinus(vinkel_bold >> 6);
 //                            v->v_yb=sinus(vinkel_bold >> 6);
 //
-//                    }
-//                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+1){
-//                           /* v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/2)); */
+                            if(level[0]>1){
+                            striker_hit[0]++;
+                            gotoxy(50,41);
+                            printf("Hits: %d", striker_hit[0]);
+                        }
+
+                            v->v_xb=v->v_xb-(16 << 5);
+                            v->v_yb=-v->v_yb-(16 << 5);
+
+                    }
+                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+1){
+//                            v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/2));
 //
 //                            vinkel_bold=(-vinkel_bold/2-vinkel_bold);
 //
 //                            v->v_xb=-cosinus(vinkel_bold >> 6);
 //                            v->v_yb=sinus(vinkel_bold >> 6);
 //                            vinkel_bold=-vinkel_bold;
-//
-//                    }
-//                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+2){
-//                           /* v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold)); */
+
+                            if(level[0]>1){
+                            striker_hit[0]++;
+                            gotoxy(50,41);
+                            printf("Hits: %d", striker_hit[0]);
+                        }
+
+                            v->v_xb=v->v_xb-(8 << 5);
+                            v->v_yb=-v->v_yb-(8 << 5);
+
+                    }
+                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+2){
+//                            v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold));
 //
 //                            v->v_xb=-cosinus(vinkel_bold >> 6);
 //                            v->v_yb=sinus(vinkel_bold >> 6);
 //                            vinkel_bold=-vinkel_bold;
-//                    }
-//                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+3){
-//                            /*v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*2));
+
+                            if(level[0]>1){
+                            striker_hit[0]++;
+                            gotoxy(50,41);
+                            printf("Hits: %d", striker_hit[0]);
+                        }
+
+                            v->v_yb=-v->v_yb;
+                    }
+                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+3){
+//                            v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*2));
 //
 //                            vinkel_bold=(-vinkel_bold*2-vinkel_bold);
 //
 //                            v->v_xb=-cosinus(vinkel_bold >> 6);
 //                            v->v_yb=sinus(vinkel_bold >> 6);
 //                            vinkel_bold=-vinkel_bold;
-//                    }
-//                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+4){
-//                           /*v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*4));
+
+                            if(level[0]>1){
+                            striker_hit[0]++;
+                            gotoxy(50,41);
+                            printf("Hits: %d", striker_hit[0]);
+                        }
+
+                            v->v_xb=v->v_xb+(8 << 5);
+                            v->v_yb=-v->v_yb+(8 << 5);
+                    }
+                    else if((v->p_xb >> 14) == (s->p_xs >> 14)+4){
+//                           v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*4));
 //
 //                            vinkel_bold=(-vinkel_bold*4-vinkel_bold);
 //
 //                            v->v_xb=-cosinus(vinkel_bold >> 6);
 //                            v->v_yb=sinus(vinkel_bold >> 6);
 //                            vinkel_bold=-vinkel_bold;
-//                    }
-//           }*/
-//        else
-//        {
-//            v->v_xb=1;
-//        }
+
+                            if(level[0]>1){
+                            striker_hit[0]++;
+                            gotoxy(50,41);
+                            printf("Hits: %d", striker_hit[0]);
+                        }
+
+                            v->v_xb=v->v_xb+(16 << 5);
+                            v->v_yb=-v->v_yb+(16 << 5);
+                    }
+           }
+        else
+        {
+            v->v_xb=1;
+        }
 
 
 
         return 0;
     }
 
-
+}
 
 
 void ball_print(struct ball_t * v)
@@ -492,8 +576,10 @@ void ball_print(struct ball_t * v)
     gotoxy(v->temp_p_xb >> 14, v->temp_p_yb >> 14);
     printf("%c", 32);
     gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
-    printf("o");
-}
+    printf("O");
+
+    }
+
 
 
 

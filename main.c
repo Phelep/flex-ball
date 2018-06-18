@@ -39,12 +39,15 @@ int main(void)
     int hit[]= {0,0,0,0,0,0,0,0,0};
     int hit_confirm[] = {0,0,0,0,0,0,0,0,0};
     int vinkel_bold = 64;
+    int boss = 0;
+    int striker_hit[]={0};
 
 
     wall(0,0,50,30);
 
+    int pow[]= {0};
     int score[]= {0};
-    int level[]= {0}; // Lvl 0 = Menu, Lvl 1 = Menu
+    int level[]= {0}; // Lvl 0 = Menu, Lvl 1 = HELP
     all_boxes(level);
     struct vector_t v;
     initVector(&v, -4, -4);
@@ -58,11 +61,21 @@ int main(void)
     TIM2_IRQHandler();
 
 
+
     while(1)
     {
+        setLed(liv);
 
 
-        if(liv>0)
+        if (joyinout()== 0b00001){
+                clrscr();
+                gotoxy(50,30);
+                printf("I SWEAR I'M WORKING, BOSS!");
+                break;
+
+        }
+
+        if(liv>0 && boss == 0)
         {
             if(level[0]==0 && (hit[3]==1 || hit[5]==1))
             {
@@ -98,7 +111,7 @@ int main(void)
                 hit_confirm[6]=0;
                 hit_confirm[7]=0;
                 hit_confirm[8]=0;
-                clean_boxes(hit,hit_confirm,score, level);
+                clean_boxes(hit,hit_confirm,score, level,pow);
                 all_boxes(level);
             }
             else if(hit[0]==1 && hit[1]==1 && hit[2]==1 && hit[3]==1 && hit[4]==1 && hit[5]==1 && level[0]==2)
@@ -122,10 +135,11 @@ int main(void)
                 hit_confirm[6]=0;
                 hit_confirm[7]=0;
                 hit_confirm[8]=0;
-                clean_boxes(hit,hit_confirm,score, level);
+                clean_boxes(hit,hit_confirm,score, level,pow);
                 all_boxes(level);
                 gotoxy(50,36);
                 printf("level: %d",level[0]-1);
+                pow[0]=0;
 
 
             }
@@ -150,10 +164,48 @@ int main(void)
                 hit_confirm[6]=0;
                 hit_confirm[7]=0;
                 hit_confirm[8]=0;
-                clean_boxes(hit,hit_confirm,score, level);
+                clean_boxes(hit,hit_confirm,score, level,pow);
                 all_boxes(level);
                 gotoxy(50,36);
                 printf("level: %d",level[0]-1);
+                pow[0]=0;
+            }
+            else if(hit[0]==1 && hit[1]==1 && hit[2]==1 && hit[3]==1 && hit[4]==1 && hit[5]==1 && hit[6]==1 && hit[7]==1 && hit[8]==1 && level[0]==4)
+            {
+
+                hit[0]=0;
+                hit[1]=0;
+                hit[2]=0;
+                hit[3]=0;
+                hit[4]=0;
+                hit[5]=0;
+                hit[6]=0;
+                hit[7]=0;
+                hit[8]=0;
+                hit_confirm[0]=0;
+                hit_confirm[1]=0;
+                hit_confirm[2]=0;
+                hit_confirm[3]=0;
+                hit_confirm[4]=0;
+                hit_confirm[5]=0;
+                hit_confirm[6]=0;
+                hit_confirm[7]=0;
+                hit_confirm[8]=0;
+                clean_boxes(hit,hit_confirm,score, level,pow);
+                all_boxes(level);
+                clrscr();
+                gotoxy(10, 20);
+                printf("Press the RESET button to go to the menu");
+                for (int i=0; i<=10; i++){
+
+                gotoxy(50+i, 10+i);
+                printf("VICTORY!");
+                    if(i==10){
+                            i=0;
+                    }
+                gotoxy(10, 10);
+                printf("Your score is %d/%d", score[0], striker_hit[0]);
+                }
             }
             if(liv_flag[0]==1 && (level[0]==2 || level[0]==3 || level[0]==4))
             {
@@ -168,17 +220,14 @@ int main(void)
 
             if(tid.hs==0)
             {
-                ball_movement(&b, 1, 50, 1, 30, &s, hit, level, liv_flag, liv, &vinkel_bold);
-                striker_movement(&s, 1, 47, 29, 29, joyinout());
+                ball_movement(&b, 1, 50, 1, 30, &s, hit, level, liv_flag, liv, &vinkel_bold, striker_hit);
+                striker_movement(&s, 1, 47, 29, 29, joyinout(), pow);
 
                 ball_print(&b);
                 striker_print(&s);
-                clean_boxes(hit, hit_confirm, score, level);
+                clean_boxes(hit, hit_confirm, score, level,pow);
             }
-            if(level[0]==5)
-            {
-                break;
-            }
+
 
             // while (1){
             //lcd_update(&k);
@@ -213,10 +262,14 @@ int main(void)
             printf("GAME OVER");
             gotoxy(50,40);
             printf("Press the RESET button to go to menu");
+            break;
         }
 
     }
-}
+
+    }
+
+
 
 
 

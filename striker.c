@@ -1,7 +1,7 @@
 #define ESC 0x1B
 #include "striker.h"
 
-void initStriker(struct striker_t * s, int32_t p_xs, int32_t p_ys, int32_t v_xs, int32_t v_ys, int32_t temp_p_xs, int32_t temp_p_ys )
+void initStriker(struct striker_t * s, int32_t p_xs, int32_t p_ys, int32_t v_xs, int32_t v_ys, int32_t temp_p_xs, int32_t temp_p_ys)
 {
     s->v_xs = v_xs << 14;
     s->v_ys = v_ys << 14;
@@ -13,14 +13,14 @@ void initStriker(struct striker_t * s, int32_t p_xs, int32_t p_ys, int32_t v_xs,
 
 }
 
-int striker_movement(struct striker_t * s, int x1, int x2, int y1, int y2, int input)
+int striker_movement(struct striker_t * s, int x1, int x2, int y1, int y2, int input, int *pow)
 {
     s->p_xs = s->p_xs + s->v_xs;
     s->p_ys = s->p_ys;
     s->temp_p_xs = s->p_xs-s->v_xs;
     s->temp_p_ys = s->p_ys-s->v_ys;
 
-
+if(pow[0]==0){
     if(( input == 16  && (s->p_xs >> 14) < x2)){
             s->v_xs = 1 << 11;
     }
@@ -30,6 +30,18 @@ int striker_movement(struct striker_t * s, int x1, int x2, int y1, int y2, int i
     else if(input == 0b00000 || s->p_xs >> 14 == x1 || s->p_xs >> 14 == x2){
             s->v_xs = 0;
     }
+}
+else if(pow[0]==1){
+        if(( input == 8  && (s->p_xs >> 14) < x2)){
+            s->v_xs = 1 << 11;
+    }
+    else if(( input == 16  && (s->p_xs >> 14) > x1)){
+            s->v_xs = -1 << 11;
+    }
+    else if(input == 0b00000 || s->p_xs >> 14 == x1 || s->p_xs >> 14 == x2){
+            s->v_xs = 0;
+    }
+}
 
    /* if((v->p_x >> 14) ==  x1 || (v->p_x >> 14) ==  x2+1)
     {

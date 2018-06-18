@@ -11,7 +11,7 @@ struct striker_t
 };
 
 void initStriker(struct striker_t * s, int32_t p_xs, int32_t p_ys, int32_t v_xs, int32_t v_ys, int32_t temp_p_xs, int32_t temp_p_ys );
-int striker_movement(struct striker_t * s, int x1, int x2, int y1, int y2, int input);
+int striker_movement(struct striker_t * s, int x1, int x2, int y1, int y2, int input, int *pow);
 void striker_print(struct striker_t * s);
 
 #endif /* STRIKER_H_INCLUDED */

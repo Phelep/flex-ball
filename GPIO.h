@@ -6,7 +6,6 @@
 #include "LUT.h"
 #include "ansi.h"
 #include "stm32f30x_rcc.h"
-#include "GPIO.h"
 
 
 void init_gpio();

@@ -10,50 +10,39 @@ int joyinout()
     uint16_t val_right = (GPIOC->IDR & (0x0001 << 0));
     uint16_t val_left = (GPIOC->IDR & (0x0001 << 1)) >> 1;
 
-    gotoxy(50,30);
-    printf("\n\nUp: %d\nDown: %d\nLeft: %d\nRight: %d\nCenter: %d\n", val_up, val_down, val_left, val_right, val_center);
+    // gotoxy(50,30);
+    // printf("\n\nUp: %d\nDown: %d\nLeft: %d\nRight: %d\nCenter: %d\n", val_up, val_down, val_left, val_right, val_center);
 
     return val_up | val_down << 1 | val_center << 2 | val_left << 3 | val_right << 4;
 }
 
 void setLed(int farve)
 {
-    if(farve==0b10000 << 0)
-    {
-        GPIOA->ODR &= ~(0x0001 << 9);
-        GPIOB->ODR |= (0x0001 << 4);
-        GPIOC->ODR |= (0x0001 << 7);
-    }
-    else if(farve==0b01000)
-    {
-        GPIOA->ODR |= (0x0001 << 9);
-        GPIOB->ODR &= ~(0x0001 << 4);
-        GPIOC->ODR |= (0x0001 << 7);
-    }
-    else if(farve==0b00100)
-    {
-        GPIOA->ODR |= (0x0001 << 9);
-        GPIOB->ODR |= (0x0001 << 4);
-        GPIOC->ODR &= ~(0x0001 << 7);
-    }
-    else if(farve==0b00010)
-    {
-        GPIOA->ODR &= ~(0x0001 << 9);
-        GPIOB->ODR &= ~(0x0001 << 4);
-        GPIOC->ODR |= (0x0001 << 7);
-    }
-    else if(farve==0b00001)
+    if(farve==3)
     {
         GPIOA->ODR &= ~(0x0001 << 9);
         GPIOB->ODR |= (0x0001 << 4);
         GPIOC->ODR &= ~(0x0001 << 7);
     }
-    else
+    else if(farve==2)
     {
         GPIOA->ODR |= (0x0001 << 9);
         GPIOB->ODR |= (0x0001 << 4);
+        GPIOC->ODR &= ~(0x0001 << 7);
+    }
+    else if(farve==1)
+    {
+        GPIOA->ODR |= (0x0001 << 9);
+        GPIOB->ODR &= ~(0x0001 << 4);
+        GPIOC->ODR &= ~(0x0001 << 7);
+    }
+    else if(farve==0)
+    {
+        GPIOA->ODR |= (0x0001 << 9);
+        GPIOB->ODR &= ~(0x0001 << 4);
         GPIOC->ODR |= (0x0001 << 7);
     }
+
 }
 
 

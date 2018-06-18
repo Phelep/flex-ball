@@ -4,6 +4,16 @@
 void initBox(int x, int y){
 
     gotoxy(x,y);
+    printf("%c%c%c%c%c%c", 177, 177, 177, 177, 177, 177);
+    gotoxy(x,y+1);
+    printf("%c%c%c%c%c%c", 177, 177, 177, 177, 177, 177);
+    gotoxy(x,y+2);
+    printf("%c%c%c%c%c%c", 177, 177, 177, 177, 177, 177);
+
+}
+void initPowBox(int x, int y){
+
+    gotoxy(x,y);
     printf("%c%c%c%c%c%c", 178, 178, 178, 178, 178, 178);
     gotoxy(x,y+1);
     printf("%c%c%c%c%c%c", 178, 178, 178, 178, 178, 178);
@@ -11,6 +21,8 @@ void initBox(int x, int y){
     printf("%c%c%c%c%c%c", 178, 178, 178, 178, 178, 178);
 
 }
+
+
 
 
 void byeBox(int x, int y){
@@ -34,12 +46,12 @@ void all_boxes(int *level){
     else if(level[0]==1){ // HELP
             clrscr();
             gotoxy(22,10);
-            printf("Use the joystick to move around\nLeft and right move the striker to the left and right\nThe center button on the joystick is the boss key\nThe RESET button takes you to the main menu");
+            printf("Use the joystick to move around\nLeft and right move the striker to the left and right\nUp on the joystick is the boss key\nThe RESET button takes you to the main menu");
     }
 
     else if(level[0]==2){
         initBox(10,10);
-        initBox(22,10);
+        initPowBox(22,10);
         initBox(34,10);
         initBox(10,16);
         initBox(22,16);
@@ -51,7 +63,7 @@ void all_boxes(int *level){
 
     }
     else if(level[0]==3){
-        initBox(22,10);
+        initPowBox(22,10);
         initBox(10,16);
         initBox(34,16);
         initBox(10, 4);
@@ -63,7 +75,7 @@ void all_boxes(int *level){
         initBox(22, 4);
         initBox(34, 4);
         initBox(10, 10);
-        initBox(22, 10);
+        initPowBox(22, 10);
         initBox(34, 10);
         initBox(10, 16);
         initBox(22, 16);
@@ -80,7 +92,7 @@ void all_boxes(int *level){
 
 
 
-void clean_boxes(int *hit, int *hit_confirm, int *score, int *level){
+void clean_boxes(int *hit, int *hit_confirm, int *score, int *level, int *pow){
     if (hit[0]==1 && hit_confirm[0]==0){
             byeBox(10,10);
             hit_confirm[0]=1;
@@ -94,6 +106,7 @@ void clean_boxes(int *hit, int *hit_confirm, int *score, int *level){
             score[0]++;
             gotoxy(50,40);
             printf("score: %d",score[0]);
+            pow[0]=1;
     }
     else if(hit[2]==1 && hit_confirm[2]==0){
             byeBox(34,10);
