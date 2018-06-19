@@ -18,10 +18,11 @@ int joyinout();
 void setLed(int farve);
 
 void timer_pp();
+void timer_pp1(uint32_t timer_speed);
 
 void TIM2_IRQHandler(void);
 
-void lcd_write_string(char *benis, int slice, int line, uint8_t *buffer);
+void lcd_write_string(char *string_ting, int slice, int line, uint8_t *buffer);
 
 void lcd_update(int *k);
 

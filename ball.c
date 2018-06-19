@@ -25,14 +25,12 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
 {
 
 
-
+//
 //     if(level[0]==3){
 //     v->v_xb = (v->v_xb + (3 << 5));
-//     v->v_yb = (v->v_yb + (3 << 5));
 //     }
 //     else if(level[0]==4){
 //     v->v_xb = (v->v_xb + (3 << 5));
-//     v->v_yb = (v->v_yb + (3 << 5));
 //     }
 
 
@@ -77,37 +75,17 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
     {
         v->v_yb = -v->v_yb;
     }
-
-    else if((v->p_yb >> 14) > y2+5)
+    else if((v->p_yb >> 14) > y2+5) // Død
     {
         liv_flag[0]=1;
         v->p_yb = (y2-1) << 14;
-        v->p_xb = s->p_xs;
-
-        if(level==2)
-        {
-            v->v_yb = -1 << 11;
-            v->v_xb = -1 << 11;
-
-
-        }
-        else if(level==3)
-        {
-            v->v_yb = (-4 << 9);
-            v->v_xb = (-4 << 9);
-
-
-        }
-        else if(level==4)
-        {
-            v->v_yb = (-2 << 10);
-            v->v_xb = (-2 << 10);
-
-
-        }
+        v->p_xb = ((s->p_xs >> 14) + 2) << 14;
+        v->v_xb = 0;
+        v->v_yb = (-1 << 11);
 
 
     }
+
 
     // BOX 0 bounce
     else if(((((v->p_yb >> 14)==10) && (((v->p_xb >> 14)>10) && (v->p_xb >> 14) < 15)) && (1 > hit[0]))  && (level[0]==2 || level[0]==4))
@@ -371,7 +349,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
 
         //v->v_yb = -v->v_yb;
 
-        if(v->v_xb<0){
+        if(v->v_xb<=0){
 
             if((v->p_xb == s->p_xs) || ((s->p_xs >> 14)-1))
             {
@@ -557,28 +535,52 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
                             v->v_yb=-v->v_yb+(16 << 5);
                     }
            }
-        else
-        {
-            v->v_xb=1;
-        }
 
 
 
         return 0;
     }
 
+
 }
 
 
 void ball_print(struct ball_t * v)
 {
-
-    gotoxy(v->temp_p_xb >> 14, v->temp_p_yb >> 14);
+    int bold_ting;
+    gotoxy(v->temp_p_xb >> 14, v->temp_p_yb>> 14);
     printf("%c", 32);
-    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
-    printf("O");
 
+    if(v->v_xb>0 && v->v_yb<0){
+    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
+    printf("%c", 187);
     }
+    else if(v->v_xb<0 && v->v_yb<0){
+    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
+    printf("%c", 201);
+    }
+    else if(v->v_xb<0 && v->v_yb>0){
+    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
+    printf("%c", 200);
+    }
+    else if(v->v_xb>0 && v->v_yb>0){
+    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
+    printf("%c", 188);
+    }
+    else if(v->v_xb==0 && v->v_yb<0){
+    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
+    printf("^");
+    }
+    else if(v->v_xb==0 && v->v_yb>0){
+    gotoxy(v->p_xb >> 14, v -> p_yb >> 14);
+    printf("v");
+    }
+
+
+
+}
+
+
 
 
 

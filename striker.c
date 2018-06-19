@@ -22,10 +22,10 @@ int striker_movement(struct striker_t * s, int x1, int x2, int y1, int y2, int i
 
 if(pow[0]==0){
     if(( input == 16  && (s->p_xs >> 14) < x2)){
-            s->v_xs = 1 << 11;
+            s->v_xs = 1 << 12;
     }
     else if(( input == 8  && (s->p_xs >> 14) > x1)){
-            s->v_xs = -1 << 11;
+            s->v_xs = -1 << 12;
     }
     else if(input == 0b00000 || s->p_xs >> 14 == x1 || s->p_xs >> 14 == x2){
             s->v_xs = 0;
@@ -33,10 +33,10 @@ if(pow[0]==0){
 }
 else if(pow[0]==1){
         if(( input == 8  && (s->p_xs >> 14) < x2)){
-            s->v_xs = 1 << 11;
+            s->v_xs = 1 << 12;
     }
     else if(( input == 16  && (s->p_xs >> 14) > x1)){
-            s->v_xs = -1 << 11;
+            s->v_xs = -1 << 12;
     }
     else if(input == 0b00000 || s->p_xs >> 14 == x1 || s->p_xs >> 14 == x2){
             s->v_xs = 0;

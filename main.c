@@ -31,19 +31,24 @@
 
 int main(void)
 {
-    //uint8_t buffer[512];
-    init_usb_uart(115200); // Initialize USB serial at 9600 baud
+    uint8_t buffer[512];
+    init_usb_uart(115200);
+    init_spi_lcd();
     init_gpio();
     clrscr();
     timer_pp();
+
+
     int hit[]= {0,0,0,0,0,0,0,0,0};
     int hit_confirm[] = {0,0,0,0,0,0,0,0,0};
     int vinkel_bold = 64;
     int boss = 0;
     int striker_hit[]={0};
+    int k = 1;
 
 
     wall(0,0,50,30);
+
 
     int pow[]= {0};
     int score[]= {0};
@@ -61,9 +66,16 @@ int main(void)
     TIM2_IRQHandler();
 
 
+    // LCD
+    memset(buffer, 0x00,512);
+    lcd_write_string("Git gud scrub.", k, 1, buffer);
+    lcd_write_string("Yes, the LCD works.", k+1, 2, buffer);
+    lcd_write_string("Move on.", k+2, 3, buffer);
+    lcd_push_buffer(buffer);
 
     while(1)
     {
+
         setLed(liv);
 
 
@@ -77,6 +89,7 @@ int main(void)
 
         if(liv>0 && boss == 0)
         {
+
             if(level[0]==0 && (hit[3]==1 || hit[5]==1))
             {
                 if(hit[3]==1)
@@ -113,6 +126,7 @@ int main(void)
                 hit_confirm[8]=0;
                 clean_boxes(hit,hit_confirm,score, level,pow);
                 all_boxes(level);
+
             }
             else if(hit[0]==1 && hit[1]==1 && hit[2]==1 && hit[3]==1 && hit[4]==1 && hit[5]==1 && level[0]==2)
             {
@@ -140,7 +154,7 @@ int main(void)
                 gotoxy(50,36);
                 printf("level: %d",level[0]-1);
                 pow[0]=0;
-
+                timer_pp1(5999);
 
             }
             else if(hit[1]==1 && hit[3]==1 && hit[5]==1 && hit[6]==1 && hit[8]==1 && level[0]==3)
@@ -169,6 +183,8 @@ int main(void)
                 gotoxy(50,36);
                 printf("level: %d",level[0]-1);
                 pow[0]=0;
+                timer_pp1(5599);
+
             }
             else if(hit[0]==1 && hit[1]==1 && hit[2]==1 && hit[3]==1 && hit[4]==1 && hit[5]==1 && hit[6]==1 && hit[7]==1 && hit[8]==1 && level[0]==4)
             {
@@ -194,6 +210,7 @@ int main(void)
                 clean_boxes(hit,hit_confirm,score, level,pow);
                 all_boxes(level);
                 clrscr();
+
                 gotoxy(10, 20);
                 printf("Press the RESET button to go to the menu");
                 for (int i=0; i<=10; i++){
@@ -217,8 +234,9 @@ int main(void)
 
 
 
+            ;
 
-            if(tid.hs==0)
+            if(tid.hs==1)
             {
                 ball_movement(&b, 1, 50, 1, 30, &s, hit, level, liv_flag, liv, &vinkel_bold, striker_hit);
                 striker_movement(&s, 1, 47, 29, 29, joyinout(), pow);
@@ -229,32 +247,34 @@ int main(void)
             }
 
 
-            // while (1){
-            //lcd_update(&k);
-            //memset(buffer, 0x00,512);
-            //lcd_write_string("Looooooooong penis", k, 1, buffer);
-            //lcd_push_buffer(buffer);
+
+
+
+
+
+    }
+
             /*setLed(joyinout());*/
 
-            /*gotoxy(0,0);
-            printf("%d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
-            if(joyinout()==0b10000){
-                    movey(1);
-                    printf("Split time 1: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
-            }
-            else if(joyinout()==0b01000){
-                    movey(2);
-                    printf("Split time 2: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
-            }
-            else if(joyinout()==0b00010){
-                    gotoxy(0,0);
-                    printf("0:0:0.00\n");
-            }
-            }*/
+//            gotoxy(10,60);
+//            printf("%d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
+//            if(joyinout()==0b10000){
+//                    movey(1);
+//                    printf("Split time 1: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
+//            }
+//            else if(joyinout()==0b01000){
+//                    movey(2);
+//                    printf("Split time 2: %d:%d:%d.%d\n",tid.h, tid.m, tid.s, tid.hs);
+//            }
+//            else if(joyinout()==0b00010){
+//                    gotoxy(0,0);
+//                    printf("0:0:0.00\n");
+//            }
+//            }*/
 
 
 
-        }
+
         else if(liv<=0)
         {
             clrscr();

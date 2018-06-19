@@ -4,6 +4,7 @@
 
 
 void initBox(int x, int y);
+void initPowBox(int x, int y);
 void byeBox(int x, int y);
 void all_boxes(int *level);
 void clean_boxes(int *hit, int *hit_confirm,int *score, int *level, int *pow);

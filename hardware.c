@@ -50,7 +50,11 @@ void setLed(int farve)
 
 
 
-
+void timer_pp1(uint32_t timer_speed)
+{
+    TIM2->ARR = timer_speed; //Reload value
+    TIM2->EGR |= 0x0001;
+}
 
 
 
@@ -60,7 +64,8 @@ void timer_pp()
 {
     RCC->APB1ENR |= RCC_APB1Periph_TIM2; // Enable clock line to timer 2;
     TIM2->CR1 = 0; // Configure timer 2
-    TIM2->ARR = 6399; // Set reload value / 6399999
+    TIM2->ARR = 6399; //Reload value
+
     TIM2->PSC = 0; // Set prescale value
 
     TIM2->DIER |= 0x0001;
@@ -98,24 +103,25 @@ void TIM2_IRQHandler(void)
     }
 
 
-    flag = 1;
+
     TIM2->SR &= ~0x0001;
 
 }
 
-void lcd_write_string(char *benis, int slice, int line, uint8_t *buffer)
+void lcd_write_string(char *string_ting, int slice, int line, uint8_t *buffer)
 {
-    int len = strlen(benis);
+    int len = strlen(string_ting);
     int k = slice;
     for (int i=0; i < len; i++)
     {
         for (int j=0; j<=4; j++)
         {
-            buffer[(k & 0x7F)+(line-1)*128]=character_data[benis[i] - 0x20][j];
+            buffer[(k & 0x7F)+(line-1)*128]=character_data[string_ting[i] - 0x20][j];
             k++;
         }
 
     }
+
 }
 
 void lcd_update(int *k)
@@ -123,7 +129,7 @@ void lcd_update(int *k)
 
     if (flag == 1)
     {
-        (*k)--;
+        //(*k)--;
         flag = 0;
 
     }

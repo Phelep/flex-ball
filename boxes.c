@@ -4,21 +4,21 @@
 void initBox(int x, int y){
 
     gotoxy(x,y);
-    printf("%c%c%c%c%c%c", 177, 177, 177, 177, 177, 177);
+    printf("%c%c%c%c%c%c", 32, 177, 177, 177, 177, 32);
     gotoxy(x,y+1);
     printf("%c%c%c%c%c%c", 177, 177, 177, 177, 177, 177);
     gotoxy(x,y+2);
-    printf("%c%c%c%c%c%c", 177, 177, 177, 177, 177, 177);
+    printf("%c%c%c%c%c%c", 32, 177, 177, 177, 177, 32);
 
 }
 void initPowBox(int x, int y){
 
     gotoxy(x,y);
-    printf("%c%c%c%c%c%c", 178, 178, 178, 178, 178, 178);
+    printf("%c%c%c%c%c%c", 32, 178, 178, 178, 178, 32);
     gotoxy(x,y+1);
     printf("%c%c%c%c%c%c", 178, 178, 178, 178, 178, 178);
     gotoxy(x,y+2);
-    printf("%c%c%c%c%c%c", 178, 178, 178, 178, 178, 178);
+    printf("%c%c%c%c%c%c", 32, 178, 178, 178, 178, 32);
 
 }
 
@@ -46,7 +46,7 @@ void all_boxes(int *level){
     else if(level[0]==1){ // HELP
             clrscr();
             gotoxy(22,10);
-            printf("Use the joystick to move around\nLeft and right move the striker to the left and right\nUp on the joystick is the boss key\nThe RESET button takes you to the main menu");
+            printf("Use the joystick to move around\nLeft and right move the striker to the left and right\nUp on the joystick is the boss key\nThe RESET button takes you to the main menu\nThe power up box is the odd looking one and the \"power up\" inverts the controls");
     }
 
     else if(level[0]==2){
