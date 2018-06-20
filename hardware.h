@@ -15,7 +15,7 @@ volatile uint8_t flag;
 
 int joyinout();
 
-void setLed(int farve);
+void setLed(int *liv);
 
 void timer_pp();
 void timer_pp1(uint32_t timer_speed);

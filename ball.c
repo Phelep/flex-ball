@@ -21,7 +21,7 @@ void initBall(struct ball_t * v, int32_t p_xb, int32_t p_yb, int32_t v_xb, int32
 
 
 
-int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct striker_t * s, int *hit, int *level, int *liv_flag, int liv, int *vinkel_bold, int *striker_hit)
+int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct striker_t * s, int *hit, int *level, int *liv_flag, int *liv, int *vinkel_bold, int *striker_hit)
 {
 
 
@@ -71,7 +71,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
         }*/
     }
 
-    else if(((v->p_yb >> 14) ==  y2+1) && level[0]==0) //Bounce på øverste væg
+    else if(((v->p_yb >> 14) ==  y2+1) && level[0]==0) //Bounce på nederste væg udenfor levels
     {
         v->v_yb = -v->v_yb;
     }
@@ -347,18 +347,12 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
            )
     {
 
-        //v->v_yb = -v->v_yb;
 
         if(v->v_xb<=0){
 
             if((v->p_xb == s->p_xs) || ((s->p_xs >> 14)-1))
             {
-//                /* v->v_xb=FIX14_MULT(v->v_xb,cosinus(vinkel_bold*4));
-//
-//                 vinkel_bold=(vinkel_bold*4+vinkel_bold); */
-//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
-//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-//                v->v_yb=sinus((*vinkel_bold)) >> 3;
+
                 if(level[0]>1){
                 striker_hit[0]++;
                 gotoxy(50,41);
@@ -372,13 +366,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
 
              else if((v->p_xb >> 14) == ((s->p_xs >> 14)+1))
             {
-//                /* v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*2));
-//
-//                  vinkel_bold=(vinkel_bold*2+vinkel_bold); */
-//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
-//
-//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-//                v->v_yb=sinus((*vinkel_bold)) >> 3;
+
 
                 if(level[0]>1){
                 striker_hit[0]++;
@@ -393,10 +381,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
             }
             else if((v->p_xb >> 14) == (s->p_xs >> 14)+2)
             {
-//                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold)); */
-//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
-//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-//                v->v_yb=sinus((*vinkel_bold)) >> 3;
+
 
                 if(level[0]>1){
                 striker_hit[0]++;
@@ -410,12 +395,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
             }
             else if((v->p_xb >> 14) == (s->p_xs >> 14)+3)
             {
-//                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/2));
-//
-//                  vinkel_bold=(vinkel_bold/2+vinkel_bold); */
-//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
-//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-//                v->v_yb=sinus((*vinkel_bold)) >> 3;
+
 
                 if(level[0]>1){
                 striker_hit[0]++;
@@ -429,12 +409,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
             }
             else if((v->p_xb >> 14) == ((s->p_xs >> 14)+4 || (s->p_xs >> 14)+5))
             {
-//                /*  v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/4));
-//
-//                  vinkel_bold=(vinkel_bold/4+vinkel_bold); */
-//                (*vinkel_bold)=(512-(*vinkel_bold)) & 0x1FF;
-//                v->v_xb=cosinus((*vinkel_bold)) >> 3;
-//                v->v_yb=sinus((*vinkel_bold)) >> 3;
+
 
                 if(level[0]>1){
                 striker_hit[0]++;
@@ -448,12 +423,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
         }
           else if(v->v_xb>0){
                     if(v->p_xb == s->p_xs){
-//                            v->v_xb=FIX14_MULT(v->v_xb,cosinus(vinkel_bold/4));
-//
-//                            vinkel_bold=512-vinkel_bold;
-//                            v->v_xb=-cosinus(vinkel_bold >> 6);
-//                            v->v_yb=sinus(vinkel_bold >> 6);
-//
+
                             if(level[0]>1){
                             striker_hit[0]++;
                             gotoxy(50,41);
@@ -465,13 +435,7 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
 
                     }
                     else if((v->p_xb >> 14) == (s->p_xs >> 14)+1){
-//                            v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold/2));
-//
-//                            vinkel_bold=(-vinkel_bold/2-vinkel_bold);
-//
-//                            v->v_xb=-cosinus(vinkel_bold >> 6);
-//                            v->v_yb=sinus(vinkel_bold >> 6);
-//                            vinkel_bold=-vinkel_bold;
+
 
                             if(level[0]>1){
                             striker_hit[0]++;
@@ -484,11 +448,6 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
 
                     }
                     else if((v->p_xb >> 14) == (s->p_xs >> 14)+2){
-//                            v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold));
-//
-//                            v->v_xb=-cosinus(vinkel_bold >> 6);
-//                            v->v_yb=sinus(vinkel_bold >> 6);
-//                            vinkel_bold=-vinkel_bold;
 
                             if(level[0]>1){
                             striker_hit[0]++;
@@ -499,13 +458,6 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
                             v->v_yb=-v->v_yb;
                     }
                     else if((v->p_xb >> 14) == (s->p_xs >> 14)+3){
-//                            v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*2));
-//
-//                            vinkel_bold=(-vinkel_bold*2-vinkel_bold);
-//
-//                            v->v_xb=-cosinus(vinkel_bold >> 6);
-//                            v->v_yb=sinus(vinkel_bold >> 6);
-//                            vinkel_bold=-vinkel_bold;
 
                             if(level[0]>1){
                             striker_hit[0]++;
@@ -517,14 +469,6 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
                             v->v_yb=-v->v_yb+(8 << 5);
                     }
                     else if((v->p_xb >> 14) == (s->p_xs >> 14)+4){
-//                           v->v_xb=FIX14_MULT(v->v_xb, cosinus(vinkel_bold*4));
-//
-//                            vinkel_bold=(-vinkel_bold*4-vinkel_bold);
-//
-//                            v->v_xb=-cosinus(vinkel_bold >> 6);
-//                            v->v_yb=sinus(vinkel_bold >> 6);
-//                            vinkel_bold=-vinkel_bold;
-
                             if(level[0]>1){
                             striker_hit[0]++;
                             gotoxy(50,41);
@@ -540,6 +484,15 @@ int ball_movement(struct ball_t * v, int x1, int x2, int y1, int y2, struct stri
 
         return 0;
     }
+
+    if(liv_flag[0]==1 && (level[0]==2 || level[0]==3 || level[0]==4))
+            {
+                liv[0]--;
+                gotoxy(50,38);
+                printf("lives: %d", liv[0]);
+                liv_flag[0]=0;
+        }
+
 
 
 }

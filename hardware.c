@@ -16,27 +16,27 @@ int joyinout()
     return val_up | val_down << 1 | val_center << 2 | val_left << 3 | val_right << 4;
 }
 
-void setLed(int farve)
+void setLed(int *liv)
 {
-    if(farve==3)
+    if(liv[0]==3)
     {
         GPIOA->ODR &= ~(0x0001 << 9);
         GPIOB->ODR |= (0x0001 << 4);
         GPIOC->ODR &= ~(0x0001 << 7);
     }
-    else if(farve==2)
+    else if(liv[0]==2)
     {
         GPIOA->ODR |= (0x0001 << 9);
         GPIOB->ODR |= (0x0001 << 4);
         GPIOC->ODR &= ~(0x0001 << 7);
     }
-    else if(farve==1)
+    else if(liv[0]==1)
     {
         GPIOA->ODR |= (0x0001 << 9);
         GPIOB->ODR &= ~(0x0001 << 4);
         GPIOC->ODR &= ~(0x0001 << 7);
     }
-    else if(farve==0)
+    else if(liv[0]==0)
     {
         GPIOA->ODR |= (0x0001 << 9);
         GPIOB->ODR &= ~(0x0001 << 4);
@@ -47,16 +47,11 @@ void setLed(int farve)
 
 
 
-
-
-
 void timer_pp1(uint32_t timer_speed)
 {
     TIM2->ARR = timer_speed; //Reload value
     TIM2->EGR |= 0x0001;
 }
-
-
 
 
 
@@ -76,12 +71,6 @@ void timer_pp()
     TIM2->CR1 |= 0x0001;
 }
 
-/*typedef struct timer_t {
-    uint8_t hs, s, m, h;
-};
-
-volatile struct timer_t tid;
-volatile uint8_t flag;*/
 
 void TIM2_IRQHandler(void)
 {

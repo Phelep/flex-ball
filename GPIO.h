@@ -1,7 +1,7 @@
 #ifndef _GPIO_PP_H_
 #define _GPIO_PP_H_
 
-#include "matematik.h"
+
 #include "30010_io.h"
 #include "LUT.h"
 #include "ansi.h"
